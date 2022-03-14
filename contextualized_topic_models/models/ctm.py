@@ -559,6 +559,26 @@ class CTM:
                                        ).generate_from_frequencies(word_score_dict))
         plt.title("Displaying Topic " + str(topic_id), loc='center', fontsize=24)
         plt.show()
+        
+    def get_wordcloud_save(self, topic_id, n_words=5, background_color="black", width=1000, height=400):
+        """
+        Plotting the wordcloud. It is an adapted version of the code found here:
+        http://amueller.github.io/word_cloud/auto_examples/simple.html#sphx-glr-auto-examples-simple-py and
+        here https://github.com/ddangelov/Top2Vec/blob/master/top2vec/Top2Vec.py
+
+        :param topic_id: id of the topic
+        :param n_words: number of words to show in word cloud
+        :param background_color: color of the background
+        :param width: width of the produced image
+        :param height: height of the produced image
+        """
+        word_score_list = self.get_word_distribution_by_topic_id(topic_id)[:n_words]
+        word_score_dict = {tup[0]: tup[1] for tup in word_score_list}
+        plt.figure(figsize=(10, 4), dpi=200)
+        plt.axis("off")
+        fig = wordcloud.WordCloud(width=width, height=height, background_color=background_color
+                                       ).generate_from_frequencies(word_score_dict)      
+        return fig
 
     def get_predicted_topics(self, dataset, n_samples):
         """
